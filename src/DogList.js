@@ -19,6 +19,8 @@ function DogList({ dogList }) {
       <Link to={`/dogs/${dog.name}`}>{dog.name}</Link>
       <br/>
       <img src={`/${dog.src}.jpg`} alt={dog.name}/>
+      <br/>
+      <br/>
     </div>)
     }
     </div>

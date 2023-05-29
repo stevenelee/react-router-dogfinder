@@ -4,10 +4,22 @@ import { Link } from "react-router-dom";
 
 const DOG_LIST_URL = "http://localhost:5001/dogs";
 
+/**
+ * Component to view all dogs
+ *
+ * Props:
+ * - saveDogs : function to setDogList
+ * - doglist : Array of dog objects
+ *
+ * App -> DogList -> DogDetails
+ */
 function DogList({ saveDogs, dogList }) {
 
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Makes a GET request to retrieve list of dogs
+   */
   async function getDogs() {
     const response = await axios.get(DOG_LIST_URL);
     saveDogs(response.data);
@@ -15,11 +27,12 @@ function DogList({ saveDogs, dogList }) {
   }
 
   return (
-    <div>
+    <div className="DogList">
     {!loading
     ?
     dogList.map(dog => <div key={dog.name}>
       <Link to={`/dogs/${dog.name}`}>{dog.name}</Link>
+      <br/>
       <img src={`./${dog.src}.jpg`} alt={dog.name}/>
     </div>)
     :

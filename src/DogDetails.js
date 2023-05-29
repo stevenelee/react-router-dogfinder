@@ -1,9 +1,18 @@
 import { useParams } from "react-router-dom"
 
+/**
+ * Component to view a single dog
+ *
+ * Props:
+ * - doglist : Array of dog objects
+ *
+ * {DogList, Nav} -> DogDetails
+ */
 function DogDetails({ dogList }) {
   const params = useParams();
   const dog = dogList.filter(d => d.name === params.name)[0];
   console.log("dog=", dog)
+  
   return (
     <div>
       <h1>{dog.name}</h1>

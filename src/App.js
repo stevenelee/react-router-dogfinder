@@ -4,19 +4,29 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import DogList from "./DogList.js";
 import DogDetails from "./DogDetails.js"
 import Nav from "./Nav.js"
+import axios from "axios";
 
+const DOG_LIST_URL = "http://localhost:5001/dogs";
 
 /**
  * Component for the App
  */
 function App() {
-  const [dogs, setDogs] = useState([]);
+  const [dogs, setDogs] = useState(null);
 
-  /**
-   * Saves the list of dogs
+   /**
+   * Makes a GET request to retrieve list of dogs
    */
-  function saveDogs(doglist) {
-    setDogs(dog => [...doglist]);
+   async function getDogs() {
+    const response = await axios.get(DOG_LIST_URL);
+    setDogs(response.data);
+  }
+
+  if (!dogs) {
+    getDogs();
+    return (
+      <h1>Loading...</h1>
+    );
   }
 
   return (
@@ -25,7 +35,7 @@ function App() {
         <Nav dogNames={dogs.map(dog => dog.name)} />
         <Routes>
           <Route path="/dogs"
-                 element={<DogList saveDogs={saveDogs} dogList={dogs} />}>
+                 element={<DogList dogList={dogs} />}>
           </Route>
           <Route path="/dogs/:name" element={<DogDetails dogList={dogs}/>}  />
           <Route path="*" element={<Navigate to="/dogs" />}/>
